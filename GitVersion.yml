@@ -2,7 +2,7 @@ mode: Mainline
 next-version: 1.0
 commit-message-incrementing: MergeMessageOnly
 branches:
-    feature:
+    develop:
         tag: beta
         increment: None
     master: {}

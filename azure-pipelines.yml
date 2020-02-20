@@ -1,6 +1,18 @@
 trigger:
-  - master
-  - feature/*
+  branches:
+    include:
+      -  master
+      - develop
+  paths:
+    exclude:
+    - '**.md*'
+pr:
+  branches:
+    include:
+      -  master
+  paths:
+    exclude:
+    - '**.md*'
 
 variables:
   buildConfiguration: "Release"
@@ -33,7 +45,6 @@ jobs:
       #     artifactName: drop
 
       - task: NuGetCommand@2
-        condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
         inputs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
