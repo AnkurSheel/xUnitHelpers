@@ -45,6 +45,7 @@ jobs:
       #     artifactName: drop
 
       - task: NuGetCommand@2
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         inputs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
@@ -52,7 +53,7 @@ jobs:
           publishFeedCredentials: 'Nuget ServiceConnection'
 
       - task: GitHubRelease@1
-        condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
         inputs:
           gitHubConnection: 'github.com_AnkurSheel'
           repositoryName: '$(Build.Repository.Name)'
