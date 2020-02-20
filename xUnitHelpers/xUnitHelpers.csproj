@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>0.0.1</Version>
+    <PackageId>Codinators.XunitHelpers</PackageId>
+    <Authors>Ankur Sheel</Authors>
+    <Company>codinators</Company>
+    <Product>xUnitHelpers</Product>
+    <Description>Helpers for xUnit</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/AnkurSheel/xUnitHelpers</PackageProjectUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryUrl>https://github.com/AnkurSheel/xUnitHelpers</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>c#, xUnit</PackageTags>
+    <PackageReleaseNotes />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>
