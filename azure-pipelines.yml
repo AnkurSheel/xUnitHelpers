@@ -1,0 +1,34 @@
+trigger:
+  - master
+  - feature/*
+
+variables:
+  buildConfiguration: "Release"
+  libraryProject: ".\\xUnitHelpers\\xUnitHelpers.csproj"
+
+jobs:
+  - job: Build
+
+    pool:
+      vmImage: "windows-latest"
+
+    steps:
+      - task: NuGetToolInstaller@1
+
+      - script: dotnet tool install -g GitVersion.Tool
+        displayName: Install GitVersion
+
+      - script: dotnet-gitversion /l console /output buildserver /nofetch
+        displayName: Get Build Version
+
+      - script: dotnet build $(libraryProject) --configuration $(buildConfiguration) /p:Version=$(GitVersion.NuGetVersionV2)
+        displayName: Build Library
+
+      - script: dotnet pack $(libraryProject) --configuration $(buildConfiguration) --include-symbols --no-build --output $(Build.ArtifactStagingDirectory) /p:Version=$(GitVersion.NuGetVersionV2)
+        displayName: Build Nuget Package
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: "$(Build.ArtifactStagingDirectory)"
+          artifactName: drop
+

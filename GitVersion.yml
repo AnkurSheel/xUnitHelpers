@@ -1,0 +1,8 @@
+mode: Mainline
+branches:
+    feature:
+        tag: beta
+    master: {}
+ignore:
+    sha: []
+merge-message-formats: {}
