@@ -33,12 +33,12 @@ jobs:
           artifactName: drop
 
       - task: NuGetCommand@2
+        condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
         inputs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
           nuGetFeedType: 'external'
           publishFeedCredentials: 'Nuget ServiceConnection'
-
 
       - task: GitHubRelease@1
         condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
