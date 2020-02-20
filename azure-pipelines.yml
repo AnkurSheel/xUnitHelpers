@@ -27,10 +27,10 @@ jobs:
       - script: dotnet pack $(libraryProject) --configuration $(buildConfiguration) --include-symbols --no-build --output $(Build.ArtifactStagingDirectory) /p:Version=$(GitVersion.NuGetVersionV2)
         displayName: Build Nuget Package
 
-      - task: PublishBuildArtifacts@1
-        inputs:
-          pathtoPublish: "$(Build.ArtifactStagingDirectory)"
-          artifactName: drop
+      # - task: PublishBuildArtifacts@1
+      #   inputs:
+      #     pathtoPublish: "$(Build.ArtifactStagingDirectory)"
+      #     artifactName: drop
 
       - task: NuGetCommand@2
         condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
