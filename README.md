@@ -13,7 +13,7 @@ dotnet add package Codinators.XunitHelpers
 
 ## Usage
 
-1. [Loading test data from a JSON file for xUnit Tests](.\xUnitHelpers\docs\UsageJsonFileDataAttribute.md)
+1. [Loading test data from a JSON file for xUnit Tests](xUnitHelpers/docs/UsageJsonFileDataAttribute.md)
 
 ## Issues
 
