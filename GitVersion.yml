@@ -1,0 +1,11 @@
+mode: Mainline
+next-version: 1.0
+commit-message-incrementing: MergeMessageOnly
+branches:
+    develop:
+        tag: beta
+        increment: None
+    master: {}
+ignore:
+    sha: []
+merge-message-formats: {}
