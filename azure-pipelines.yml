@@ -5,7 +5,7 @@ trigger:
       - develop
   paths:
     exclude:
-    - '**/*.md'
+    - './**/*.md'
     - './xUnitHelpers/.Examples/*'
 
 pr:
@@ -14,7 +14,7 @@ pr:
       -  master
   paths:
     exclude:
-    - '**/*.md'
+    - './**/*.md'
 
 variables:
   buildConfiguration: "Release"
