@@ -6,6 +6,8 @@ branches:
         tag: beta
         increment: None
     master: {}
+    pull-request:
+        tag: alpha
 ignore:
     sha: []
 merge-message-formats: {}
