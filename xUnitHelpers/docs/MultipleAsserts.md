@@ -16,3 +16,6 @@ public void MultiAssertTest()
 ### Result
 
 ![Screenshot for Multiple Asserts](MultipleAsserts.jpg)
+
+More examples of usage can be found in the
+[Examples project](https://github.com/AnkurSheel/xUnitHelpers/blob/master/xUnitHelpers.Examples/MultiAssertExample.cs)
