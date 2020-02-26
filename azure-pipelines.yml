@@ -5,14 +5,16 @@ trigger:
       - develop
   paths:
     exclude:
-    - '**/*.md'
+    - './**/*.md'
+    - './xUnitHelpers/.Examples/*'
+
 pr:
   branches:
     include:
       -  master
   paths:
     exclude:
-    - '**/*.md'
+    - './**/*.md'
 
 variables:
   buildConfiguration: "Release"
