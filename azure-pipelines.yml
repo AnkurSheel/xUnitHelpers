@@ -6,6 +6,8 @@ trigger:
   paths:
     exclude:
     - '**/*.md'
+    - './xUnitHelpers/.Examples/*'
+
 pr:
   branches:
     include:
