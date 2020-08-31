@@ -1,6 +1,6 @@
-# Usage
+# Loading test data from a JSON file for xUnit Tests
 
-## Loading test data from a JSON file for xUnit Tests
+## Usage
 
 The entire file provides the data
 

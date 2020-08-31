@@ -1,6 +1,6 @@
-# Usage
+# Multiple Asserts
 
-## Multiple Asserts
+## Usage
 
 ```csharp
 [Fact]
