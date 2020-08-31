@@ -1,70 +1,72 @@
 trigger:
-  branches:
-    include:
-      -  master
-      - develop
-  paths:
-    exclude:
-    - './**/*.md'
-    - './xUnitHelpers/.Examples/*'
+    branches:
+        include:
+            - master
+    paths:
+        exclude:
+            - './**/*.md'
+            - './xUnitHelpers/.Examples/*'
 
 pr:
-  branches:
-    include:
-      -  master
-  paths:
-    exclude:
-    - './**/*.md'
+    branches:
+        include:
+            - master
+    paths:
+        exclude:
+            - './**/*.md'
+            - './xUnitHelpers/.Examples/*'
 
 variables:
-  buildConfiguration: "Release"
-  libraryProject: ".\\xUnitHelpers\\xUnitHelpers.csproj"
+    buildConfiguration: 'Release'
+    libraryProject: ".\\xUnitHelpers\\xUnitHelpers.csproj"
 
 jobs:
-  - job: Build
+    - job: Build
 
-    pool:
-      vmImage: "windows-latest"
+      pool:
+          vmImage: 'windows-latest'
 
-    steps:
-      - task: NuGetToolInstaller@1
+      steps:
+          - task: NuGetToolInstaller@1
 
-      - script: dotnet tool install -g GitVersion.Tool
-        displayName: Install GitVersion
+          - script: dotnet tool install -g GitVersion.Tool
+            displayName: Install GitVersion
 
-      - script: dotnet-gitversion /l console /output buildserver /nofetch
-        displayName: Get Build Version
+          - script: dotnet-gitversion /l console /output buildserver /nofetch
+            displayName: Get Build Version
 
-      - script: dotnet build $(libraryProject) --configuration $(buildConfiguration) /p:Version=$(GitVersion.NuGetVersionV2)
-        displayName: Build Library
+          - script:
+                dotnet build $(libraryProject) --configuration $(buildConfiguration)
+                /p:Version=$(GitVersion.NuGetVersionV2)
+            displayName: Build Library
 
-      - script: dotnet pack $(libraryProject) --configuration $(buildConfiguration) --include-symbols --no-build --output $(Build.ArtifactStagingDirectory) /p:Version=$(GitVersion.NuGetVersionV2)
-        displayName: Build Nuget Package
+          - script:
+                dotnet pack $(libraryProject) --configuration $(buildConfiguration) --include-symbols --no-build
+                --output $(Build.ArtifactStagingDirectory) /p:Version=$(GitVersion.NuGetVersionV2)
+            displayName: Build Nuget Package
 
-      # - task: PublishBuildArtifacts@1
-      #   inputs:
-      #     pathtoPublish: "$(Build.ArtifactStagingDirectory)"
-      #     artifactName: drop
+          # - task: PublishBuildArtifacts@1
+          #   inputs:
+          #     pathtoPublish: "$(Build.ArtifactStagingDirectory)"
+          #     artifactName: drop
 
-      - task: NuGetCommand@2
-        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-        inputs:
-          command: 'push'
-          packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-          nuGetFeedType: 'external'
-          publishFeedCredentials: 'Nuget ServiceConnection'
+          - task: NuGetCommand@2
+            inputs:
+                command: 'push'
+                packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+                nuGetFeedType: 'external'
+                publishFeedCredentials: 'Nuget ServiceConnection'
 
-      - task: GitHubRelease@1
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-        inputs:
-          gitHubConnection: 'github.com_AnkurSheel'
-          repositoryName: '$(Build.Repository.Name)'
-          action: 'create'
-          target: '$(Build.SourceVersion)'
-          tagSource: 'userSpecifiedTag'
-          tag: 'v$(GitVersion.NuGetVersionV2)'
-          title: 'v$(GitVersion.NuGetVersionV2)'
-          releaseNotesFilePath: 'CHANGELOG.md'
-          changeLogCompareToRelease: 'lastFullRelease'
-          changeLogType: 'issueBased'
-
+          - task: GitHubRelease@1
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            inputs:
+                gitHubConnection: 'github.com_AnkurSheel'
+                repositoryName: '$(Build.Repository.Name)'
+                action: 'create'
+                target: '$(Build.SourceVersion)'
+                tagSource: 'userSpecifiedTag'
+                tag: 'v$(GitVersion.NuGetVersionV2)'
+                title: 'v$(GitVersion.NuGetVersionV2)'
+                releaseNotesFilePath: 'CHANGELOG.md'
+                changeLogCompareToRelease: 'lastFullRelease'
+                changeLogType: 'issueBased'

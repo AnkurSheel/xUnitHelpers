@@ -7,7 +7,11 @@ branches:
         increment: None
     master: {}
     pull-request:
+        mode: ContinuousDeployment
         tag: alpha
+        increment: Inherit
+        track-merge-target: false
+        tag-number-pattern: '[/-](?<number>\d+)[-/]'
 ignore:
     sha: []
 merge-message-formats: {}

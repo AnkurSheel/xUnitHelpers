@@ -18,6 +18,7 @@ dotnet add package Codinators.XunitHelpers
 
 1. [Loading test data from a JSON file for xUnit Tests](xUnitHelpers/docs/UsageJsonFileDataAttribute.md)
 1. [Multiple Asserts](xUnitHelpers/docs/MultipleAsserts.md)
+1. [Auto Approver for Approval Tests](xUnitHelpers/docs/AutoApprover.md)
 
 ## Issues
 
