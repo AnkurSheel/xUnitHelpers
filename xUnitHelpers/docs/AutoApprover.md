@@ -10,6 +10,9 @@ using xUnitHelpers;
 [assembly: UseReporter(typeof(AutoApprover))]
 ```
 
-### Result
+## Result
 
-This will automatically approve the the test but in your test runner it will show up as a failing test so that you have a clear indication of which tests failed.
+It will automatically update the the approval file. But, in the test runner it will show up as a failing test so that we have a clear indication of which tests failed.
+
+It will not do anything if the recieved and approved files match so if we run the test again (without changing anything), it will pass.
+
