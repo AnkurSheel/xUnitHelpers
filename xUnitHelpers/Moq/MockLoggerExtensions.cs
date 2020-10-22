@@ -6,7 +6,7 @@ namespace xUnitHelpers.Moq
 {
     public static class MockLoggerExtensions
     {
-        public static Mock<ILogger<T>> VerifyLogging<T>(
+        public static Mock<ILogger<T>> VerifyLog<T>(
             this Mock<ILogger<T>> logger,
             string message,
             LogLevel logLevel = LogLevel.Error,
