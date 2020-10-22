@@ -21,7 +21,7 @@ namespace xUnitHelpers.Examples.Moq
         {
             _sut.SingleLog();
 
-            _loggerMock.VerifyLogging("Error Message");
+            _loggerMock.VerifyLog("Error Message");
         }
 
 
@@ -30,9 +30,9 @@ namespace xUnitHelpers.Examples.Moq
         {
             _sut.MultipleLogsOfSameType();
 
-            _loggerMock.VerifyLogging("Error Message one")
-                       .VerifyLogging("Error Message two")
-                       .VerifyLogging("Error Message three");
+            _loggerMock.VerifyLog("Error Message one")
+                       .VerifyLog("Error Message two")
+                       .VerifyLog("Error Message three");
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace xUnitHelpers.Examples.Moq
         {
             _sut.SameLogMultipleTimes();
 
-            _loggerMock.VerifyLogging("Error Message", times: Times.Exactly(3));
+            _loggerMock.VerifyLog("Error Message", times: Times.Exactly(3));
         }
 
 
@@ -49,9 +49,9 @@ namespace xUnitHelpers.Examples.Moq
         {
             _sut.MultipleLogsOfDifferentTypes();
 
-            _loggerMock.VerifyLogging("Error Message")
-                       .VerifyLogging("Warning Message", LogLevel.Warning)
-                       .VerifyLogging("Debug Message", LogLevel.Debug);
+            _loggerMock.VerifyLog("Error Message")
+                       .VerifyLog("Warning Message", LogLevel.Warning)
+                       .VerifyLog("Debug Message", LogLevel.Debug);
         }
     }
 }
