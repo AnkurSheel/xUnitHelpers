@@ -5,13 +5,16 @@ branches:
     develop:
         tag: beta
         increment: None
-    master: {}
+    master:
+        increment: Patch
+        prevent-increment-of-merged-branch-version: true
     pull-request:
         mode: ContinuousDeployment
         tag: alpha
         increment: Inherit
         track-merge-target: false
         tag-number-pattern: '[/-](?<number>\d+)[-/]'
+        prevent-increment-of-merged-branch-version: false
 ignore:
     sha: []
 merge-message-formats: {}
