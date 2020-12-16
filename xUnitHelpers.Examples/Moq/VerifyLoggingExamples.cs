@@ -7,13 +7,13 @@ namespace xUnitHelpers.Examples.Moq
 {
     public class VerifyLoggingExamples
     {
-        private readonly Mock<ILogger<TestClassForVerifyLogging>> _loggerMock;
+        private readonly Mock<ILogger<TestClassForVerifyLogging>> _mockLogger;
         private readonly TestClassForVerifyLogging _sut;
 
         public VerifyLoggingExamples()
         {
-            _loggerMock = new Mock<ILogger<TestClassForVerifyLogging>>();
-            _sut = new TestClassForVerifyLogging(_loggerMock.Object);
+            _mockLogger = new Mock<ILogger<TestClassForVerifyLogging>>();
+            _sut = new TestClassForVerifyLogging(_mockLogger.Object);
         }
 
         [Fact]
@@ -21,7 +21,7 @@ namespace xUnitHelpers.Examples.Moq
         {
             _sut.SingleLog();
 
-            _loggerMock.VerifyLog("Error Message");
+            _mockLogger.VerifyLog("Error Message");
         }
 
 
@@ -30,7 +30,7 @@ namespace xUnitHelpers.Examples.Moq
         {
             _sut.MultipleLogsOfSameType();
 
-            _loggerMock.VerifyLog("Error Message one")
+            _mockLogger.VerifyLog("Error Message one")
                        .VerifyLog("Error Message two")
                        .VerifyLog("Error Message three");
         }
@@ -40,7 +40,7 @@ namespace xUnitHelpers.Examples.Moq
         {
             _sut.SameLogMultipleTimes();
 
-            _loggerMock.VerifyLog("Error Message", times: Times.Exactly(3));
+            _mockLogger.VerifyLog("Error Message", times: Times.Exactly(3));
         }
 
 
@@ -49,7 +49,7 @@ namespace xUnitHelpers.Examples.Moq
         {
             _sut.MultipleLogsOfDifferentTypes();
 
-            _loggerMock.VerifyLog("Error Message")
+            _mockLogger.VerifyLog("Error Message")
                        .VerifyLog("Warning Message", LogLevel.Warning)
                        .VerifyLog("Debug Message", LogLevel.Debug);
         }
