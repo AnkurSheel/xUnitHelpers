@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Version>1.0.16</Version>
     <PackageId>Codinators.XunitHelpers</PackageId>
     <Authors>Ankur Sheel</Authors>
@@ -16,6 +15,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>c#, xUnit</PackageTags>
     <PackageReleaseNotes />
+    <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
