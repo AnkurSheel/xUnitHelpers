@@ -1,6 +1,5 @@
-mode: Mainline
+mode: ContinuousDelivery
 next-version: 1.0.17
-commit-message-incrementing: MergeMessageOnly
 branches:
     develop:
         tag: beta
@@ -14,7 +13,6 @@ branches:
         tracks-release-branches: false
         is-release-branch: false
     pull-request:
-        mode: ContinuousDeployment
         tag: alpha
         increment: Inherit
         track-merge-target: false
