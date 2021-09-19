@@ -22,7 +22,9 @@ Write-Output $version
 $nugetVersion = $version.NuGetVersionV2
 
 Write-Host "Build Library"
+Write-Host "dotnet build --configuration $configuration /p:Version=$nugetVersion $project"
 dotnet build --configuration $configuration /p:Version=$nugetVersion $project
 
 Write-Host "Build Nuget Package"
+Write-Host "dotnet build --configuration $configuration /p:Version=$nugetVersion $project"
 dotnet pack $project --configuration $configuration --include-symbols --no-build --output $outFolder /p:Version=$nugetVersion
