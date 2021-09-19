@@ -19,12 +19,10 @@ $version = dotnet dotnet-gitversion /nofetch | Out-String | ConvertFrom-Json
 Write-HOST "version"
 Write-Output $version
 
-$assemblyVer = $version.AssemblySemVer
-$assemblyFileVer = $version.AssemblySemFileVer
 $nugetVersion = $version.NuGetVersionV2
-$assemblyInformationalVersion = $version.FullSemVer + "." + $version.Sha
-$fullSemver = $version.FullSemVer
-
 
 Write-Host "Build Library"
-dotnet build --configuration $configuration -p:Version=$nugetVersion $project
+dotnet build --configuration $configuration /p:Version=$nugetVersion $project
+
+Write-Host "Build Nuget Package"
+dotnet pack $project --configuration $configuration --include-symbols --no-build --output $outFolder /p:Version=$nugetVersion
