@@ -30,13 +30,13 @@ jobs:
       steps:
           - task: NuGetToolInstaller@1
 
-          - task: BatchScript@1
+          - task: PowerShell@2
             displayName: 'Execute build file to create release'
             inputs:
-                filename: $(Build.SourcesDirectory)/build/build.bat
-                workingFolder: $(Build.SourcesDirectory)
-                arguments: $(Build.ArtifactStagingDirectory) $(buildConfiguration) $(libraryProject)
-                failOnStandardError: true
+                filePath: $(Build.SourcesDirectory)/build/build.ps1
+                workingDirectory: $(Build.SourcesDirectory)
+                arguments: -outFolder $(Build.ArtifactStagingDirectory) -configuration $(buildConfiguration) -libraryProject $(libraryProject)
+                failOnStderr: true
 #          - script: dotnet tool install -g GitVersion.Tool
 #            displayName: Install GitVersion
 #
