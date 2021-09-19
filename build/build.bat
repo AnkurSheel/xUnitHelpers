@@ -10,3 +10,5 @@ dotnet tool install GitVersion.Tool
 
 echo "Running gitversion to determine version"
 dotnet dotnet-gitversion /l console /output buildserver /nofetch
+echo %GitVersion.NuGetVersionV2%
+echo %GitVersion%
