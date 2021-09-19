@@ -33,11 +33,10 @@ jobs:
           - task: BatchScript@1
             displayName: 'Execute build file to create release'
             inputs:
-                targetType: filePath
-                filePath: $(Build.SourcesDirectory)/build/build.sh
-                workingDirectory: $(Build.SourcesDirectory)
-                arguments: $(Build.ArtifactStagingDirectory) $(buildConfiguration)
-                failOnStderr: true
+                filename: $(Build.SourcesDirectory)/build/build.bat
+                workingFolder: $(Build.SourcesDirectory)
+                arguments: $(Build.ArtifactStagingDirectory) $(buildConfiguration) $(libraryProject)
+                failOnStandardError: true
 #          - script: dotnet tool install -g GitVersion.Tool
 #            displayName: Install GitVersion
 #
