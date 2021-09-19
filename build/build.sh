@@ -10,5 +10,5 @@ echo "Restoring tooling for gitversion"
 dotnet tool install GitVersion.Tool
 
 echo "Running gitversion to determine version"
-version = $(dotnet dotnet-gitversion /l console /output buildserver /nofetch)
+version = $(dotnet tool run dotnet-gitversion /config GitVersion.yml)
 echo "version - $version"

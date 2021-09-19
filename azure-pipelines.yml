@@ -1,3 +1,4 @@
+# https://www.codewrecks.com/post/azdo/pipeline/release-multiple-build/
 trigger:
     branches:
         include:
@@ -29,7 +30,7 @@ jobs:
       steps:
           - task: NuGetToolInstaller@1
 
-          - task: Bash@3
+          - task: BatchScript@1
             displayName: 'Execute build file to create release'
             inputs:
                 targetType: filePath
