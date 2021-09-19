@@ -29,21 +29,32 @@ jobs:
       steps:
           - task: NuGetToolInstaller@1
 
-          - script: dotnet tool install -g GitVersion.Tool
-            displayName: Install GitVersion
+          - task: Bash@3
+            displayName: "Execute build file to create release"
+            inputs:
+              targetType: inline
+              script: '# echo $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)'
 
-          - script: dotnet-gitversion /l console /output buildserver /nofetch
-            displayName: Get Build Version
+#              filePath: $(Build.SourcesDirectory)/src/Connector/build.ps1
+#              workingDirectory: $(Build.SourcesDirectory)/src/Connector
+#              arguments: -outFolder  $(Build.ArtifactStagingDirectory) -configuration ${{parameters.configuration}}
+#              failOnStderr: true
 
-          - script:
-                dotnet build $(libraryProject) --configuration $(buildConfiguration)
-                /p:Version=$(GitVersion.NuGetVersionV2)
-            displayName: Build Library
-
-          - script:
-                dotnet pack $(libraryProject) --configuration $(buildConfiguration) --include-symbols --no-build
-                --output $(Build.ArtifactStagingDirectory) /p:Version=$(GitVersion.NuGetVersionV2)
-            displayName: Build Nuget Package
+#          - script: dotnet tool install -g GitVersion.Tool
+#            displayName: Install GitVersion
+#
+#          - script: dotnet-gitversion /l console /output buildserver /nofetch
+#            displayName: Get Build Version
+#
+#          - script:
+#                dotnet build $(libraryProject) --configuration $(buildConfiguration)
+#                /p:Version=$(GitVersion.NuGetVersionV2)
+#            displayName: Build Library
+#
+#          - script:
+#                dotnet pack $(libraryProject) --configuration $(buildConfiguration) --include-symbols --no-build
+#                --output $(Build.ArtifactStagingDirectory) /p:Version=$(GitVersion.NuGetVersionV2)
+#            displayName: Build Nuget Package
 
           # - task: PublishBuildArtifacts@1
           #   inputs:
