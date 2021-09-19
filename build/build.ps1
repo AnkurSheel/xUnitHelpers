@@ -1,8 +1,16 @@
-Write-Output $outFolder
-Write-Output $configuration
-Write-Output $project
+$outFolder = $args[0]
+$configuration = $args[1]
+$project = $args[2]
+
+Write-Host "Output folder is $outFolder"
+Write-Host "Configuration: $configuration"
+Write-Host "Project: $project"
+
+Write-Host "Build id variable is $env:BUILD_BUILDID"
 
 Write-Host "Restoring tooling for gitversion"
+
+
 dotnet tool restore
 
 Write-Host "Get version"
@@ -17,12 +25,6 @@ $nugetVersion = $version.NuGetVersionV2
 $assemblyInformationalVersion = $version.FullSemVer + "." + $version.Sha
 $fullSemver = $version.FullSemVer
 
-$buildId = $env:BUILD_BUILDID
-Write-Host "Build id variable is $buildId"
 
-$runInBuild = $false
-if (![System.String]::IsNullOrEmpty($buildId))
-{
-    $runInBuild = $true
-    Write-Host "Running in an Azure Devops Build"
-}
+Write-Host "Build Library"
+dotnet build --configuration $configuration -p:Version=$nugetVersion $project
