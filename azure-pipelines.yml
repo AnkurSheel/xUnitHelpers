@@ -30,16 +30,13 @@ jobs:
           - task: NuGetToolInstaller@1
 
           - task: Bash@3
-            displayName: "Execute build file to create release"
+            displayName: 'Execute build file to create release'
             inputs:
-              targetType: inline
-              script: '# echo $(Build.SourcesDirectory) $(Build.ArtifactStagingDirectory)'
-
-#              filePath: $(Build.SourcesDirectory)/src/Connector/build.ps1
-#              workingDirectory: $(Build.SourcesDirectory)/src/Connector
-#              arguments: -outFolder  $(Build.ArtifactStagingDirectory) -configuration ${{parameters.configuration}}
-#              failOnStderr: true
-
+                targetType: filePath
+                filePath: $(Build.SourcesDirectory)/build/build.sh
+                workingDirectory: $(Build.SourcesDirectory)
+                arguments: $(Build.ArtifactStagingDirectory) $(buildConfiguration)
+                failOnStderr: true
 #          - script: dotnet tool install -g GitVersion.Tool
 #            displayName: Install GitVersion
 #
@@ -56,28 +53,28 @@ jobs:
 #                --output $(Build.ArtifactStagingDirectory) /p:Version=$(GitVersion.NuGetVersionV2)
 #            displayName: Build Nuget Package
 
-          # - task: PublishBuildArtifacts@1
-          #   inputs:
-          #     pathtoPublish: "$(Build.ArtifactStagingDirectory)"
-          #     artifactName: drop
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     pathtoPublish: "$(Build.ArtifactStagingDirectory)"
+#     artifactName: drop
 
-          - task: NuGetCommand@2
-            inputs:
-                command: 'push'
-                packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-                nuGetFeedType: 'external'
-                publishFeedCredentials: 'Nuget ServiceConnection'
-
-          - task: GitHubRelease@1
-            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-            inputs:
-                gitHubConnection: 'github.com_AnkurSheel'
-                repositoryName: '$(Build.Repository.Name)'
-                action: 'create'
-                target: '$(Build.SourceVersion)'
-                tagSource: 'userSpecifiedTag'
-                tag: 'v$(GitVersion.NuGetVersionV2)'
-                title: 'v$(GitVersion.NuGetVersionV2)'
-                releaseNotesFilePath: 'CHANGELOG.md'
-                changeLogCompareToRelease: 'lastFullRelease'
-                changeLogType: 'issueBased'
+#          - task: NuGetCommand@2
+#            inputs:
+#                command: 'push'
+#                packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+#                nuGetFeedType: 'external'
+#                publishFeedCredentials: 'Nuget ServiceConnection'
+#
+#          - task: GitHubRelease@1
+#            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+#            inputs:
+#                gitHubConnection: 'github.com_AnkurSheel'
+#                repositoryName: '$(Build.Repository.Name)'
+#                action: 'create'
+#                target: '$(Build.SourceVersion)'
+#                tagSource: 'userSpecifiedTag'
+#                tag: 'v$(GitVersion.NuGetVersionV2)'
+#                title: 'v$(GitVersion.NuGetVersionV2)'
+#                releaseNotesFilePath: 'CHANGELOG.md'
+#                changeLogCompareToRelease: 'lastFullRelease'
+#                changeLogType: 'issueBased'
