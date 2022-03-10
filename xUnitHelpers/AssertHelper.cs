@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xunit;
 using Xunit.Sdk;
 
 namespace xUnitHelpers
 {
-    public class AssertHelper
+    public static class AssertHelper
     {
         public static void AssertMultiple(params Action[] assertionsToRun)
         {
@@ -40,6 +41,19 @@ namespace xUnitHelpers
 
             throw new XunitException(
                 $"{errorMessages.Count}/{assertionsToRun.Length} conditions failed:{Environment.NewLine}{Environment.NewLine}{errorText}{Environment.NewLine}{Environment.NewLine}*******{Environment.NewLine}{Environment.NewLine}");
+        }
+
+        public static void AssertUnorderedCollection<T>(IReadOnlyCollection<T> expected, IReadOnlyCollection<T> actual)
+        {
+            AssertHelper.AssertMultiple(
+                () => Assert.Equal(expected.Count, actual.Count),
+                () =>
+                {
+                    foreach (var value in expected)
+                    {
+                        Assert.Contains(value, actual);
+                    }
+                });
         }
 
         private static object RemoveBoringLinesFromStackTrace(Exception e)

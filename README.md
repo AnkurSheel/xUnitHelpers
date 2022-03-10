@@ -2,7 +2,8 @@
 
 Codinators.XunitHelpers is a Nuget package to help with
 
-1. loading test data from a JSON file for xUnit Tests. Read more at [How to load test data from a json file for xUnit tests](https://www.ankursheel.com/blog/load-test-data-from-a-json-file-for-xunit-tests)
+1. loading test data from a JSON file for xUnit Tests. Read more
+   at [How to load test data from a json file for xUnit tests](https://www.ankursheel.com/blog/load-test-data-from-a-json-file-for-xunit-tests)
 1. Multiple Asserts for xunit Tests.
 1. Auto Approving changed files for Approval Tests
 1. Verifying Calls to Ilogger using Moq
@@ -18,9 +19,10 @@ dotnet add package Codinators.XunitHelpers
 ## Usage
 
 1. [Loading test data from a JSON file for xUnit Tests](xUnitHelpers/docs/UsageJsonFileDataAttribute.md)
-1. [Multiple Asserts](xUnitHelpers/docs/MultipleAsserts.md)
-1. [Auto Approver for Approval Tests](xUnitHelpers/docs/AutoApprover.md)
-1. [Verify Calls to Ilogger using Moq](xUnitHelpers/docs/VerifyLogs.md)
+2. [Multiple Asserts](xUnitHelpers/docs/MultipleAsserts.md)
+3. [Auto Approver for Approval Tests](xUnitHelpers/docs/AutoApprover.md)
+4. [Verify Calls to Ilogger using Moq](xUnitHelpers/docs/VerifyLogs.md)
+5. [Comparing Collections](xUnitHelpers/docs/ComparingCollections.md)
 
 ## Issues
 
