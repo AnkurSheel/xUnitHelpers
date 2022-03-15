@@ -12,7 +12,7 @@ namespace xUnitHelpers
     {
         private readonly string _filePath;
 
-        private readonly string _propertyName;
+        private readonly string? _propertyName;
 
         private readonly Type _dataType;
 
@@ -41,6 +41,7 @@ namespace xUnitHelpers
             }
 
             var parameters = testMethod.GetParameters();
+
             // Get the absolute path to the JSON file
             var path = Path.IsPathRooted(_filePath)
                 ? _filePath
@@ -62,20 +63,31 @@ namespace xUnitHelpers
 
             // Only use the specified property as the data
             var allData = JObject.Parse(fileData);
-            var data = allData[_propertyName].ToString();
+            var data = allData[_propertyName]?.ToString();
+
             return GetData(data);
         }
 
-        private IEnumerable<object[]> GetData(string jsonData)
+        private IEnumerable<object[]> GetData(string? jsonData)
         {
+            var objectList = new List<object[]>();
             var specific = typeof(TestObject<,>).MakeGenericType(_dataType, _resultType);
             var generic = typeof(List<>).MakeGenericType(specific);
 
-            dynamic datalist = JsonConvert.DeserializeObject(jsonData, generic);
-            var objectList = new List<object[]>();
-            foreach (var data in datalist)
+            if (jsonData != null)
             {
-                objectList.Add(new object[] {data.Data, data.Result});
+                dynamic? datalist = JsonConvert.DeserializeObject(jsonData, generic);
+
+                if (datalist != null)
+                {
+                    foreach (var data in datalist)
+                    {
+                        if (data != null)
+                        {
+                            objectList.Add(new object[] { data.Data, data.Result });
+                        }
+                    }
+                }
             }
 
             return objectList;

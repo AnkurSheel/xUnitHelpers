@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 using Xunit.Sdk;
@@ -11,6 +12,7 @@ namespace xUnitHelpers
         public static void AssertMultiple(params Action[] assertionsToRun)
         {
             var errorMessages = new List<Exception>();
+
             foreach (var action in assertionsToRun)
             {
                 try
@@ -29,6 +31,7 @@ namespace xUnitHelpers
             }
 
             var errorText = new StringBuilder();
+
             foreach (var e in errorMessages)
             {
                 if (errorText.Length > 0)
@@ -45,7 +48,7 @@ namespace xUnitHelpers
 
         public static void AssertUnorderedCollection<T>(IReadOnlyCollection<T> expected, IReadOnlyCollection<T> actual)
         {
-            AssertHelper.AssertMultiple(
+            AssertMultiple(
                 () => Assert.Equal(expected.Count, actual.Count),
                 () =>
                 {
@@ -56,11 +59,29 @@ namespace xUnitHelpers
                 });
         }
 
-        private static object RemoveBoringLinesFromStackTrace(Exception e)
+        public static void AssertOrderedCollection<T>(IReadOnlyCollection<T> expected, IReadOnlyCollection<T> actual)
         {
+            AssertMultiple(
+                () => Assert.Equal(expected.Count, actual.Count),
+                () =>
+                {
+                    for (var i = 0; i < expected.Count; i++)
+                    {
+                        Assert.Equal(expected.ElementAt(i), actual.ElementAt(i));
+                    }
+                });
+        }
+
+        private static object? RemoveBoringLinesFromStackTrace(Exception e)
+        {
+            if (e.StackTrace == null)
+            {
+                return null;
+            }
+
             var sb = new StringBuilder(e.Message).AppendLine();
 
-            foreach (var line in e.StackTrace.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var line in e.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
                 // don't report uninteresting stack trace lines.
                 if (line.Contains("Xunit.Assert") || line.Contains("AssertHelper.AssertMultiple"))
