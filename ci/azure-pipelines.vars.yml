@@ -1,0 +1,5 @@
+variables:
+    - name: 'BuildConfiguration'
+      value: 'Release'
+    - name: 'libraryProject'
+      value: '.\xUnitHelpers\xUnitHelpers.csproj'

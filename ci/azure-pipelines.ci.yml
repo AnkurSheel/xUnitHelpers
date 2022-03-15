@@ -1,0 +1,20 @@
+name: 'Live'
+
+trigger:
+    branches:
+        include:
+            - main
+    paths:
+        exclude:
+            - './**/*.md'
+            -  './xUnitHelpers/.Examples/*'
+
+pr: none
+
+variables:
+    - template: azure-pipelines.vars.yml
+
+jobs:
+    - template: azure-pipelines.common.yml
+      parameters:
+          message: 'Release $(Build.SourceVersion) $(Build.SourceVersionMessage)'
