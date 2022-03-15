@@ -23,7 +23,7 @@ namespace xUnitHelpers.Examples
         {
             var test = new PrimitiveTestData();
             var result = test.ToString(data);
-            Assert.Equal(expected, result);
+            Xunit.Assert.Equal(expected, result);
         }
 
         [Theory]
@@ -32,7 +32,7 @@ namespace xUnitHelpers.Examples
         {
             var test = new PrimitiveTestData();
             var result = test.ToString(data);
-            Assert.Equal(expected, result);
+            Xunit.Assert.Equal(expected, result);
         }
 
         [Theory]
@@ -41,7 +41,7 @@ namespace xUnitHelpers.Examples
         {
             var test = new PrimitiveTestData();
             var result = test.ToStringAndAppendCats(data);
-            Assert.Equal(expected, result);
+            Xunit.Assert.Equal(expected, result);
         }
     }
 }
