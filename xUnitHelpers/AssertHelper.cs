@@ -2,14 +2,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xunit;
 using Xunit.Sdk;
 
 namespace xUnitHelpers
 {
     public static class AssertHelper
     {
+        private static readonly string LineBreakForFailure = $"{Environment.NewLine}*******{Environment.NewLine}{Environment.NewLine}";
+
         public static void AssertMultiple(params Action[] assertionsToRun)
+        {
+            var failures = GetFailures(assertionsToRun);
+
+            if (failures.Any())
+            {
+                var errorText = GetErrorMessage(failures);
+
+                throw new XunitException(
+                    $"{failures.Count}/{assertionsToRun.Length} conditions failed:{Environment.NewLine}{Environment.NewLine}{errorText}{Environment.NewLine}{LineBreakForFailure}");
+            }
+        }
+
+        public static void AssertUnorderedCollection<T>(IReadOnlyCollection<T> expected, IReadOnlyCollection<T> actual)
+        {
+            var failures = new List<Exception>();
+            GetFailure(() => Assert.Equal(expected.Count, actual.Count, "Number of Elements in collections do not match"), failures);
+
+            foreach (var value in expected)
+            {
+                GetFailure(() => Assert.Contains(value, actual, "Element missing from collection"), failures);
+            }
+
+            foreach (var value in actual)
+            {
+                GetFailure(() => Assert.Contains(value, expected, "Extra Element in collection"), failures);
+            }
+
+            if (failures.Any())
+            {
+                var errorText = GetErrorMessage(failures);
+
+                throw new XunitException($"{errorText}{LineBreakForFailure}");
+            }
+        }
+
+        private static void GetFailure(Action assertion, List<Exception> errorMessages)
+        {
+            var failures = GetFailures(
+                new List<Action>
+                {
+                    assertion
+                });
+
+            if (failures.Any())
+            {
+                errorMessages.Add(failures[0]);
+            }
+        }
+
+        private static IReadOnlyList<Exception> GetFailures(IReadOnlyCollection<Action> assertionsToRun)
         {
             var errorMessages = new List<Exception>();
 
@@ -25,51 +76,24 @@ namespace xUnitHelpers
                 }
             }
 
-            if (errorMessages.Count <= 0)
-            {
-                return;
-            }
+            return errorMessages;
+        }
 
+        private static string GetErrorMessage(IReadOnlyList<Exception> failures)
+        {
             var errorText = new StringBuilder();
 
-            foreach (var e in errorMessages)
+            foreach (var e in failures)
             {
                 if (errorText.Length > 0)
                 {
-                    errorText.Append(Environment.NewLine);
+                    errorText.Append(LineBreakForFailure);
                 }
 
                 errorText.Append(RemoveBoringLinesFromStackTrace(e));
             }
 
-            throw new XunitException(
-                $"{errorMessages.Count}/{assertionsToRun.Length} conditions failed:{Environment.NewLine}{Environment.NewLine}{errorText}{Environment.NewLine}{Environment.NewLine}*******{Environment.NewLine}{Environment.NewLine}");
-        }
-
-        public static void AssertUnorderedCollection<T>(IReadOnlyCollection<T> expected, IReadOnlyCollection<T> actual)
-        {
-            AssertMultiple(
-                () => Assert.Equal(expected.Count, actual.Count),
-                () =>
-                {
-                    foreach (var value in expected)
-                    {
-                        Assert.Contains(value, actual);
-                    }
-                });
-        }
-
-        public static void AssertOrderedCollection<T>(IReadOnlyCollection<T> expected, IReadOnlyCollection<T> actual)
-        {
-            AssertMultiple(
-                () => Assert.Equal(expected.Count, actual.Count),
-                () =>
-                {
-                    for (var i = 0; i < expected.Count; i++)
-                    {
-                        Assert.Equal(expected.ElementAt(i), actual.ElementAt(i));
-                    }
-                });
+            return errorText.ToString();
         }
 
         private static object? RemoveBoringLinesFromStackTrace(Exception e)
@@ -84,7 +108,7 @@ namespace xUnitHelpers
             foreach (var line in e.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
                 // don't report uninteresting stack trace lines.
-                if (line.Contains("Xunit.Assert") || line.Contains("AssertHelper.AssertMultiple"))
+                if (line.Contains("Xunit.Assert") || line.Contains("AssertHelper.AssertMultiple") || line.Contains("AssertHelper.GetFailure") || line.Contains("xUnitHelpers.Assert"))
                 {
                     continue;
                 }
