@@ -1,4 +1,4 @@
-# Verify Calls to Ilogger using Moq
+# Verify Calls to Mock<Ilogger>
 
 ## Usage
 

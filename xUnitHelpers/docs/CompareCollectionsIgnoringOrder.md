@@ -1,4 +1,4 @@
-# Comparing Collections
+# Compare Collections Ignoring Order
 
 ## Usage
 
