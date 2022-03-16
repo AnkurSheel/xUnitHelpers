@@ -46,6 +46,29 @@ namespace xUnitHelpers
             }
         }
 
+        public static void AssertOrderedCollection<T>(IReadOnlyCollection<T> expected, IReadOnlyCollection<T> actual)
+        {
+            var failures = new List<Exception>();
+
+            GetFailure(() => Assert.Equal(expected.Count, actual.Count, "Number of Elements in collections do not match"), failures);
+
+            for (var i = 0; i < expected.Count && i < actual.Count; i++)
+            {
+                var expectedElement = expected.ElementAt(i);
+                var actualElement = actual.ElementAt(i);
+
+                var index = i;
+                GetFailure(() => Assert.Equal(expectedElement, actualElement, $"Element does not match at index {index}"), failures);
+            }
+
+            if (failures.Any())
+            {
+                var errorText = GetErrorMessage(failures);
+
+                throw new XunitException($"{errorText}{LineBreakForFailure}");
+            }
+        }
+
         private static void GetFailure(Action assertion, List<Exception> errorMessages)
         {
             var failures = GetFailures(
