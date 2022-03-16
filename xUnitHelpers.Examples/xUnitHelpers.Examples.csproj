@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsPackable>false</IsPackable>
-    <RestoreSources>$(RestoreSources);https://api.nuget.org/v3/index.json</RestoreSources>
-    <PackageId />
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="allDataPrimitive.json" />
     <None Remove="dataPrimitive.json" />
+    <None Remove="testData.csv" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +20,10 @@
     <Content Include="dataPrimitive.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="testData.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+
   </ItemGroup>
   
   <ItemGroup>
@@ -42,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="Codinators.XunitHelpers" Version="1.0.16" />
+    <PackageReference Include="Codinators.XunitHelpers" Version="1.0.19" />
   </ItemGroup>
+
 </Project>

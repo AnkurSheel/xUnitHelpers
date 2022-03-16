@@ -10,38 +10,33 @@ namespace xUnitHelpers
         // ReSharper disable once InconsistentNaming
         public static readonly AutoApprover INSTANCE = new AutoApprover();
 
-        private string _approved;
-        private string _received;
-
         public void Report(string approved, string received)
         {
-            _approved = approved;
-            _received = received;
-            var success = ApproveFiles();
+            var success = ApproveFiles(approved, received);
             Debug.WriteLine(success);
             Console.WriteLine(success);
         }
 
-        public bool ApproveFiles()
+        private bool ApproveFiles(string approved, string received)
         {
-            if (!File.Exists(_received))
+            if (!File.Exists(received))
             {
                 return false;
             }
 
-            if (File.Exists(_approved))
+            if (File.Exists(approved))
             {
-                File.Delete(_approved);
+                File.Delete(approved);
             }
 
-            if (File.Exists(_approved))
+            if (File.Exists(approved))
             {
                 return false;
             }
 
-            File.Copy(_received, _approved);
+            File.Copy(received, approved);
 
-            return File.Exists(_approved);
+            return File.Exists(approved);
         }
     }
 }

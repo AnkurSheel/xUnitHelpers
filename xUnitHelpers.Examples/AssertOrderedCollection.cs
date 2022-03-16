@@ -3,7 +3,7 @@ using Xunit;
 
 namespace xUnitHelpers.Examples
 {
-    public class AssertUnorderedCollection
+    public class AssertOrderedCollection
     {
         [Fact]
         public void If_content_matches_test_passes()
@@ -17,12 +17,34 @@ namespace xUnitHelpers.Examples
 
             var actualList = new List<int>
             {
+                1,
                 2,
-                3,
-                1
+                3
             };
 
-            AssertHelper.AssertUnorderedCollection(expectedList, actualList);
+            AssertHelper.AssertOrderedCollection(expectedList, actualList);
+        }
+
+        [Fact(Skip = "This is a failing test")]
+        public void If_content_does_not_match_in_order_test_fails()
+        {
+            var expectedList = new List<int>
+            {
+                1,
+                2,
+                2,
+                3
+            };
+
+            var actualList = new List<int>
+            {
+                1,
+                2,
+                3,
+                2
+            };
+
+            AssertHelper.AssertOrderedCollection(expectedList, actualList);
         }
 
         [Fact(Skip = "This is a failing test")]
@@ -37,12 +59,12 @@ namespace xUnitHelpers.Examples
 
             var actualList = new List<int>
             {
+                1,
                 2,
-                3,
-                1
+                3
             };
 
-            AssertHelper.AssertUnorderedCollection(expectedList, actualList);
+            AssertHelper.AssertOrderedCollection(expectedList, actualList);
         }
 
         [Fact(Skip = "This is a failing test")]
@@ -58,12 +80,12 @@ namespace xUnitHelpers.Examples
 
             var actualList = new List<int>
             {
+                1,
                 2,
                 3,
-                1,
             };
 
-            AssertHelper.AssertUnorderedCollection(expectedList, actualList);
+            AssertHelper.AssertOrderedCollection(expectedList, actualList);
         }
 
         [Fact(Skip = "This is a failing test")]
@@ -78,14 +100,14 @@ namespace xUnitHelpers.Examples
 
             var actualList = new List<int>
             {
+                1,
                 2,
                 3,
-                1,
                 4,
                 5
             };
 
-            AssertHelper.AssertUnorderedCollection(expectedList, actualList);
+            AssertHelper.AssertOrderedCollection(expectedList, actualList);
         }
     }
 }
