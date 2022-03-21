@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
+using Xunit;
 using Xunit.Sdk;
 using xUnitHelpers.Exceptions;
 
 namespace xUnitHelpers
 {
-    public static class Assert
+    public static class AssertX
     {
         public static void Equal<T>(T expected, T actual, string userMessage)
         {
             try
             {
-                Xunit.Assert.Equal(expected, actual);
+                Assert.Equal(expected, actual);
             }
             catch (EqualException)
             {
@@ -22,7 +23,7 @@ namespace xUnitHelpers
         {
             try
             {
-                Xunit.Assert.Contains(expectedValue, collection);
+                Assert.Contains(expectedValue, collection);
             }
             catch (ContainsException)
             {

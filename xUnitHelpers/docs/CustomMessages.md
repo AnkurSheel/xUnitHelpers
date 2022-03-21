@@ -10,7 +10,7 @@ Currently, we support custom error messages for
 [Fact]
 public void AssertCustomErrorMessagesTest()
 {
-   Assert.Contains(expected, actual, "custom error message")
-   Assert.Equal(expected, actual, "custom error message")
+   AssertX.Contains(expected, actual, "custom error message")
+   AssertX.Equal(expected, actual, "custom error message")
 }
 ```
