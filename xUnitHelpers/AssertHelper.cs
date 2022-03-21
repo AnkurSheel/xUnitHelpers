@@ -26,16 +26,16 @@ namespace xUnitHelpers
         public static void AssertUnorderedCollection<T>(IReadOnlyCollection<T> expected, IReadOnlyCollection<T> actual)
         {
             var failures = new List<Exception>();
-            GetFailure(() => Assert.Equal(expected.Count, actual.Count, "Number of Elements in collections do not match"), failures);
+            GetFailure(() => AssertX.Equal(expected.Count, actual.Count, "Number of Elements in collections do not match"), failures);
 
             foreach (var value in expected)
             {
-                GetFailure(() => Assert.Contains(value, actual, "Element missing from collection"), failures);
+                GetFailure(() => AssertX.Contains(value, actual, "Element missing from collection"), failures);
             }
 
             foreach (var value in actual)
             {
-                GetFailure(() => Assert.Contains(value, expected, "Extra Element in collection"), failures);
+                GetFailure(() => AssertX.Contains(value, expected, "Extra Element in collection"), failures);
             }
 
             if (failures.Any())
@@ -50,7 +50,7 @@ namespace xUnitHelpers
         {
             var failures = new List<Exception>();
 
-            GetFailure(() => Assert.Equal(expected.Count, actual.Count, "Number of Elements in collections do not match"), failures);
+            GetFailure(() => AssertX.Equal(expected.Count, actual.Count, "Number of Elements in collections do not match"), failures);
 
             for (var i = 0; i < expected.Count && i < actual.Count; i++)
             {
@@ -58,7 +58,7 @@ namespace xUnitHelpers
                 var actualElement = actual.ElementAt(i);
 
                 var index = i;
-                GetFailure(() => Assert.Equal(expectedElement, actualElement, $"Element does not match at index {index}"), failures);
+                GetFailure(() => AssertX.Equal(expectedElement, actualElement, $"Element does not match at index {index}"), failures);
             }
 
             if (failures.Any())
