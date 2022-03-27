@@ -6,11 +6,7 @@ namespace xUnitHelpers.Moq
 {
     public static class MockLoggerExtensions
     {
-        public static Mock<ILogger<T>> VerifyLog<T>(
-            this Mock<ILogger<T>> logger,
-            string message,
-            LogLevel logLevel = LogLevel.Error,
-            Times? times = null)
+        public static Mock<ILogger<T>> VerifyLog<T>(this Mock<ILogger<T>> logger, string message, LogLevel logLevel = LogLevel.Error, Times? times = null)
         {
             times ??= Times.Once();
 
@@ -18,8 +14,8 @@ namespace xUnitHelpers.Moq
                     It.IsAny<EventId>(),
                     It.Is<It.IsAnyType>((v, t) => v.ToString() == message),
                     It.IsAny<Exception>(),
-                    It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
-                (Times) times);
+                    It.Is<Func<It.IsAnyType, Exception?, string>>((v, t) => true)),
+                (Times)times);
 
             return logger;
         }
