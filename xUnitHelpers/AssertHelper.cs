@@ -141,5 +141,15 @@ namespace xUnitHelpers
 
             return sb;
         }
+
+        public static T AssertNotNull<T>(this T? value) where  T: class
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return value;
+        }
     }
 }
