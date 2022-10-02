@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="Codinators.XunitHelpers" Version="1.0.19" />
+    <PackageReference Include="Codinators.XunitHelpers" Version="3.0.1" />
   </ItemGroup>
 
 </Project>
